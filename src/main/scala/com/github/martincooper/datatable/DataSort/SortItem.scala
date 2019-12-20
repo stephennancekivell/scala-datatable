@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSort
 
-import com.github.martincooper.datatable.DataSort.SortEnum.{ Ascending, SortOrder }
+import com.github.martincooper.datatable.DataSort.SortEnum.{
+  Ascending,
+  SortOrder
+}
 import com.github.martincooper.datatable.{ ItemByIndex, ItemByName, ItemIdentity }
 
 object SortEnum {

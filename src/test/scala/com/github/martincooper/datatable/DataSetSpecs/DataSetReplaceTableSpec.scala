@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSetSpecs
 
 import com.github.martincooper.datatable.{ DataSet, DataTable }
@@ -26,13 +25,16 @@ class DataSetReplaceTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val newDataSet = dataSet.replace("TableTwo", DataTable("NewTable").get)
 
     newDataSet.isSuccess should be(true)
     newDataSet.get.tables.length should be(3)
-    newDataSet.get.tables.map(_.name) should be(Seq("TableOne", "NewTable", "TableThree"))
+    newDataSet.get.tables.map(_.name) should be(
+      Seq("TableOne", "NewTable", "TableThree")
+    )
   }
 
   it should "disallow a table to be replaced by name when its name is not found" in {
@@ -40,12 +42,16 @@ class DataSetReplaceTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
-    val newDataSet = dataSet.replace("TableOneHundred", DataTable("NewTable").get)
+    val newDataSet =
+      dataSet.replace("TableOneHundred", DataTable("NewTable").get)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Table TableOneHundred not found.")
+    newDataSet.failed.get.getMessage should be(
+      "Table TableOneHundred not found."
+    )
   }
 
   it should "allow a table to be replaced by index" in {
@@ -53,13 +59,16 @@ class DataSetReplaceTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val newDataSet = dataSet.replace(1, DataTable("NewTable").get)
 
     newDataSet.isSuccess should be(true)
     newDataSet.get.tables.length should be(3)
-    newDataSet.get.tables.map(_.name) should be(Seq("TableOne", "NewTable", "TableThree"))
+    newDataSet.get.tables.map(_.name) should be(
+      Seq("TableOne", "NewTable", "TableThree")
+    )
   }
 
   it should "disallow a table to be replaced by index when it is not found" in {
@@ -67,12 +76,15 @@ class DataSetReplaceTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val newDataSet = dataSet.replace(100, DataTable("NewTable").get)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Item index out of bounds for replace.")
+    newDataSet.failed.get.getMessage should be(
+      "Item index out of bounds for replace."
+    )
   }
 
   it should "allow a table to be replaced by reference" in {
@@ -80,13 +92,16 @@ class DataSetReplaceTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val newDataSet = dataSet.replace(tableTwo, DataTable("NewTable").get)
 
     newDataSet.isSuccess should be(true)
     newDataSet.get.tables.length should be(3)
-    newDataSet.get.tables.map(_.name) should be(Seq("TableOne", "NewTable", "TableThree"))
+    newDataSet.get.tables.map(_.name) should be(
+      Seq("TableOne", "NewTable", "TableThree")
+    )
   }
 
   it should "disallow a table to be replaced by reference when it is not found" in {
@@ -94,12 +109,15 @@ class DataSetReplaceTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val unknownTable = DataTable("UnknownTableTable").get
     val newDataSet = dataSet.replace(unknownTable, DataTable("NewTable").get)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Item index out of bounds for replace.")
+    newDataSet.failed.get.getMessage should be(
+      "Item index out of bounds for replace."
+    )
   }
 }

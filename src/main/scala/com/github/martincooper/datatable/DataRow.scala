@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable
 
 import scala.reflect.runtime.universe._
@@ -45,22 +44,28 @@ class DataRow private (dataTable: DataTable, index: Int) {
   def apply(columnName: String): Any = table.columns(columnName).data(rowIndex)
 
   /** Gets the column by index, as Try[Any] in case it doesn't exist. */
-  def get(columnIndex: Int): Try[Any] = colToValue(table.columns.get(columnIndex))
+  def get(columnIndex: Int): Try[Any] =
+    colToValue(table.columns.get(columnIndex))
 
   /** Gets the column by name, as Try[Any] in case it doesn't exist. */
-  def get(columnName: String): Try[Any] = colToValue(table.columns.get(columnName))
+  def get(columnName: String): Try[Any] =
+    colToValue(table.columns.get(columnName))
 
   /** Gets the typed column by index. */
-  def as[T: TypeTag](columnIndex: Int): T = table.columns(columnIndex).data(rowIndex).asInstanceOf[T]
+  def as[T: TypeTag](columnIndex: Int): T =
+    table.columns(columnIndex).data(rowIndex).asInstanceOf[T]
 
   /** Gets the typed column by name. */
-  def as[T: TypeTag](columnName: String): T = table.columns(columnName).data(rowIndex).asInstanceOf[T]
+  def as[T: TypeTag](columnName: String): T =
+    table.columns(columnName).data(rowIndex).asInstanceOf[T]
 
   /** Gets the typed column by index, as Try[T] in case it doesn't exist or invalid type. */
-  def getAs[T: TypeTag](columnIndex: Int): Try[T] = colToTypedValue(table.columns.get(columnIndex))
+  def getAs[T: TypeTag](columnIndex: Int): Try[T] =
+    colToTypedValue(table.columns.get(columnIndex))
 
   /** Gets the typed column by name, as Try[T] in case it doesn't exist or invalid type. */
-  def getAs[T: TypeTag](columnName: String): Try[T] = colToTypedValue(table.columns.get(columnName))
+  def getAs[T: TypeTag](columnName: String): Try[T] =
+    colToTypedValue(table.columns.get(columnName))
 
   private def colToValue(column: Try[GenericColumn]): Try[Any] = {
     column match {
@@ -69,7 +74,8 @@ class DataRow private (dataTable: DataTable, index: Int) {
     }
   }
 
-  private def colToTypedValue[T: TypeTag](tryColumn: Try[GenericColumn]): Try[T] = {
+  private def colToTypedValue[T: TypeTag](
+    tryColumn: Try[GenericColumn]): Try[T] = {
     for {
       column <- tryColumn
       typeCol <- column.toDataColumn[T]

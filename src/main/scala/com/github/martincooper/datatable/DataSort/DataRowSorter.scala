@@ -13,11 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSort
 
-import com.github.martincooper.datatable.{ ItemIdentity, ItemByIndex, ItemByName, DataRow }
-import com.github.martincooper.datatable.DataSort.SortEnum.{ Descending, Ascending }
+import com.github.martincooper.datatable.{
+  ItemIdentity,
+  ItemByIndex,
+  ItemByName,
+  DataRow
+}
+import com.github.martincooper.datatable.DataSort.SortEnum.{
+  Descending,
+  Ascending
+}
 
 /** Handles the multi column sorting on a DataRow. */
 object DataRowSorter {
@@ -40,23 +47,33 @@ object DataRowSorter {
   }
 
   /** Method to support 'Ordered[DataRow]' for DataRows. */
-  def compare(rowOne: DataRow, rowTwo: DataRow, sortItems: Iterable[SortItem]): Int = {
+  def compare(
+    rowOne: DataRow,
+    rowTwo: DataRow,
+    sortItems: Iterable[SortItem]): Int = {
     compareBySortItem(rowOne, rowTwo, sortItems)
   }
 
   /** Recursive sort method, handles multi-sort on columns. */
-  private def compareBySortItem(rowOne: DataRow, rowTwo: DataRow, sortItems: Iterable[SortItem]): Int = {
+  private def compareBySortItem(
+    rowOne: DataRow,
+    rowTwo: DataRow,
+    sortItems: Iterable[SortItem]): Int = {
     sortItems match {
       case Nil => 0
-      case firstItem :: tail => compareValues(rowTwo, rowOne, firstItem) match {
-        case 0 => compareBySortItem(rowOne, rowTwo, tail)
-        case result => result
-      }
+      case firstItem :: tail =>
+        compareValues(rowTwo, rowOne, firstItem) match {
+          case 0 => compareBySortItem(rowOne, rowTwo, tail)
+          case result => result
+        }
     }
   }
 
   /** Compares the two values in each specified column. */
-  private def compareValues(rowOne: DataRow, rowTwo: DataRow, sortItem: SortItem): Int = {
+  private def compareValues(
+    rowOne: DataRow,
+    rowTwo: DataRow,
+    sortItem: SortItem): Int = {
     val valueOne = valueFromIdentity(rowOne, sortItem.columnIdentity)
     val valueTwo = valueFromIdentity(rowTwo, sortItem.columnIdentity)
 
@@ -67,7 +84,9 @@ object DataRowSorter {
   }
 
   /** Gets a value from a DataRow by ItemIdentity. */
-  private def valueFromIdentity(dataRow: DataRow, itemIdentity: ItemIdentity): Any = {
+  private def valueFromIdentity(
+    dataRow: DataRow,
+    itemIdentity: ItemIdentity): Any = {
     itemIdentity match {
       case ItemByName(name) => dataRow(name)
       case ItemByIndex(index) => dataRow(index)
@@ -76,6 +95,8 @@ object DataRowSorter {
 
   /** Cast each value to Comparable Type before comparing. */
   def compareValues(valueOne: Any, valueTwo: Any) = {
-    valueOne.asInstanceOf[Comparable[Any]].compareTo(valueTwo.asInstanceOf[Comparable[Any]])
+    valueOne
+      .asInstanceOf[Comparable[Any]]
+      .compareTo(valueTwo.asInstanceOf[Comparable[Any]])
   }
 }

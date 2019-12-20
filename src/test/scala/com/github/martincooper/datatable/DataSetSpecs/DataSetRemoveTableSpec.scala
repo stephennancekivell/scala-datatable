@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSetSpecs
 
 import com.github.martincooper.datatable.{ DataSet, DataTable }
@@ -26,7 +25,8 @@ class DataSetRemoveTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val newDataSet = dataSet.remove("TableTwo")
 
@@ -44,7 +44,9 @@ class DataSetRemoveTableSpec extends FlatSpec with Matchers {
     val newDataSet = dataSet.remove("TableOneHundred")
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Table TableOneHundred not found.")
+    newDataSet.failed.get.getMessage should be(
+      "Table TableOneHundred not found."
+    )
   }
 
   it should "allow a table to be removed by index" in {
@@ -52,7 +54,8 @@ class DataSetRemoveTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val newDataSet = dataSet.remove(1)
 
@@ -70,7 +73,9 @@ class DataSetRemoveTableSpec extends FlatSpec with Matchers {
     val newDataSet = dataSet.remove(100)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Item index out of bounds for remove.")
+    newDataSet.failed.get.getMessage should be(
+      "Item index out of bounds for remove."
+    )
   }
 
   it should "allow a table to be removed by reference" in {
@@ -78,7 +83,8 @@ class DataSetRemoveTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val newDataSet = dataSet.remove(tableTwo)
 
@@ -92,11 +98,14 @@ class DataSetRemoveTableSpec extends FlatSpec with Matchers {
     val tableTwo = DataTable("TableTwo").get
     val tableThree = DataTable("TableThree").get
 
-    val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
+    val dataSet =
+      DataSet("TestDataSet", Seq(tableOne, tableTwo, tableThree)).get
 
     val newDataSet = dataSet.remove(DataTable("NewTable").get)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Item index out of bounds for remove.")
+    newDataSet.failed.get.getMessage should be(
+      "Item index out of bounds for remove."
+    )
   }
 }

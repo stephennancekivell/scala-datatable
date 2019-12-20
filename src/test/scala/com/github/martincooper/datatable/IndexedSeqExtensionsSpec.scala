@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable
 
 import org.scalatest.{ Matchers, FlatSpec }
@@ -56,7 +55,9 @@ class IndexedSeqExtensionsSpec extends FlatSpec with Matchers {
     val modified = IndexedSeqExtensions.removeItem(testVector, 9)
 
     modified.isSuccess should be(false)
-    modified.failed.get.getMessage should be("Item index out of bounds for remove.")
+    modified.failed.get.getMessage should be(
+      "Item index out of bounds for remove."
+    )
   }
 
   "Replace item" should "correctly replace an item a collection" in {
@@ -75,7 +76,9 @@ class IndexedSeqExtensionsSpec extends FlatSpec with Matchers {
     val modified = IndexedSeqExtensions.replaceItem(testVector, 9, 9)
 
     modified.isSuccess should be(false)
-    modified.failed.get.getMessage should be("Item index out of bounds for replace.")
+    modified.failed.get.getMessage should be(
+      "Item index out of bounds for replace."
+    )
   }
 
   "Insert item" should "correctly insert an item into a collection" in {
@@ -94,7 +97,9 @@ class IndexedSeqExtensionsSpec extends FlatSpec with Matchers {
     val modified = IndexedSeqExtensions.insertItem(testVector, 9, 9)
 
     modified.isSuccess should be(false)
-    modified.failed.get.getMessage should be("Item index out of bounds for insert.")
+    modified.failed.get.getMessage should be(
+      "Item index out of bounds for insert."
+    )
   }
 
   "Check Bounds" should "correctly pass if index in bounds." in {

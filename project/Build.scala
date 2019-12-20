@@ -4,23 +4,19 @@ import com.typesafe.sbt.SbtScalariform.scalariformSettings
 
 object ScalaCSVProject extends Build {
 
-  lazy val root = Project (
+  lazy val root = Project(
     id = "scala-datatable",
-    base = file ("."),
-    settings = Defaults.defaultSettings ++ Seq (
+    base = file("."),
+    settings = Defaults.defaultSettings ++ Seq(
       name := "scala-datatable",
-      version := "0.8.0",
-      scalaVersion := "2.12.4",
-      crossScalaVersions := Seq("2.11.4", "2.12.2", "2.12.4"),
+      version := "0.9.0-SNAPSHOT",
+      scalaVersion := "2.13.1",
+      crossScalaVersions := Seq("2.12.4", "2.13.1"),
       organization := "com.github.martincooper",
       libraryDependencies ++= Seq(
-        "org.scalatest" %% "scalatest" % "3.0.4" % "test"
+        "org.scalatest" %% "scalatest" % "3.0.8" % "test"
       ),
-      scalacOptions ++= Seq(
-        "-deprecation",
-        "-language:_",
-        "-Xlint"
-      ),
+      scalacOptions ++= Seq("-deprecation", "-language:_", "-Xlint"),
       javacOptions in compile ++= Seq("-target", "6", "-source", "6", "-Xlint"),
       initialCommands := """
                            |import com.github.martincooper.datatable._
@@ -31,7 +27,7 @@ object ScalaCSVProject extends Build {
         if (v.trim.endsWith("SNAPSHOT"))
           Some("snapshots" at nexus + "content/repositories/snapshots")
         else
-          Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+          Some("releases" at nexus + "service/local/staging/deploy/maven2")
       },
       publishArtifact in Test := false,
       pomExtra := _pomExtra

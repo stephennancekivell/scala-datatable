@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataTableSpecs
 
-import com.github.martincooper.datatable.{ DataColumn, DataTable, DataTableException, GenericColumn }
+import com.github.martincooper.datatable.{
+  DataColumn,
+  DataTable,
+  DataTableException,
+  GenericColumn
+}
 import org.scalatest.{ FlatSpec, Matchers }
 
 class DataTableSpec extends FlatSpec with Matchers {
@@ -30,8 +34,12 @@ class DataTableSpec extends FlatSpec with Matchers {
   }
 
   it can "be created with a name and default columns" in {
-    val dataColOne = new DataColumn[Int]("ColOne", (0 to 19) map { i => i })
-    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 19) map { i => "Value : " + i })
+    val dataColOne = new DataColumn[Int]("ColOne", (0 to 19) map { i =>
+      i
+    })
+    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 19) map { i =>
+      "Value : " + i
+    })
 
     val result = DataTable("TestTable", Seq(dataColOne, dataColTwo))
 
@@ -50,8 +58,12 @@ class DataTableSpec extends FlatSpec with Matchers {
 
   it should "return correct row count" in {
 
-    val dataColOne = new DataColumn[Int]("ColOne", (0 to 19) map { i => i })
-    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 19) map { i => "Value : " + i })
+    val dataColOne = new DataColumn[Int]("ColOne", (0 to 19) map { i =>
+      i
+    })
+    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 19) map { i =>
+      "Value : " + i
+    })
 
     val result = DataTable("TestTable", Seq(dataColOne, dataColTwo))
 
@@ -69,23 +81,35 @@ class DataTableSpec extends FlatSpec with Matchers {
 
   it should "prevent different column lengths" in {
 
-    val dataColOne = new DataColumn[Int]("ColOne", (0 to 10) map { i => i })
-    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 20) map { i => "Value : " + i })
+    val dataColOne = new DataColumn[Int]("ColOne", (0 to 10) map { i =>
+      i
+    })
+    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 20) map { i =>
+      "Value : " + i
+    })
 
     val result = DataTable("TestTable", Seq(dataColOne, dataColTwo))
 
     result.isFailure should be(true)
-    result.failed.get should be(DataTableException("Columns have uneven row count."))
+    result.failed.get should be(
+      DataTableException("Columns have uneven row count.")
+    )
   }
 
   it should "prevent duplicate column names" in {
 
-    val dataColOne = new DataColumn[Int]("ColOne", (0 to 10) map { i => i })
-    val dataColTwo = new DataColumn[String]("ColOne", (0 to 10) map { i => "Value : " + i })
+    val dataColOne = new DataColumn[Int]("ColOne", (0 to 10) map { i =>
+      i
+    })
+    val dataColTwo = new DataColumn[String]("ColOne", (0 to 10) map { i =>
+      "Value : " + i
+    })
 
     val result = DataTable("TestTable", Seq(dataColOne, dataColTwo))
 
     result.isFailure should be(true)
-    result.failed.get should be(DataTableException("Columns contain duplicate names."))
+    result.failed.get should be(
+      DataTableException("Columns contain duplicate names.")
+    )
   }
 }

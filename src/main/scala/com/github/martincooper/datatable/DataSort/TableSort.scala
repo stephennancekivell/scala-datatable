@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSort
 
+import com.github.martincooper.datatable.{ DataRow, DataRowCollection, DataTable, DataView }
 import com.github.martincooper.datatable.DataSort.SortEnum.{ Ascending, SortOrder }
-import com.github.martincooper.datatable._
 
 import scala.util.Try
 
@@ -37,7 +36,10 @@ trait TableSort {
 
   /** Performs a quick sort of the DataTable, returning a sorted DataView. */
   def quickSort(columnName: String, sortOrder: SortOrder): Try[DataView] = {
-    DataSort.quickSort(table, rows, Seq(SortItem(columnName, sortOrder)))
+    val drows: Iterable[DataRow] = rows
+    val si: Iterable[SortItem] = Seq(SortItem(columnName, sortOrder))
+
+    DataSort.quickSort(table, drows, si)
   }
 
   /** Performs a quick sort of the DataTable, returning a sorted DataView. */

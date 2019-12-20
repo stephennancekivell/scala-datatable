@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable
 
 import scala.util.{ Success, Failure, Try }
@@ -27,13 +26,16 @@ trait ModifiableByTable[V, R] extends ModifiableByName[V, R] {
 
 /** DataSet class. Stores a collection of DataTables */
 class DataSet private (dataSetName: String, dataTables: Iterable[DataTable])
-    extends IndexedSeq[DataTable] with ModifiableByTable[DataTable, DataSet] {
+    extends IndexedSeq[DataTable]
+    with ModifiableByTable[DataTable, DataSet] {
 
   val name = dataSetName
   val tables = dataTables.toVector
 
   /** Creates a new DataSet with the table specified replaced with the new table. */
-  override def replace(oldTable: DataTable, newTable: DataTable): Try[DataSet] = {
+  override def replace(
+    oldTable: DataTable,
+    newTable: DataTable): Try[DataSet] = {
     replace(tables.indexWhere(table => table eq oldTable), newTable)
   }
 
@@ -44,11 +46,16 @@ class DataSet private (dataSetName: String, dataTables: Iterable[DataTable])
 
   /** Creates a new DataSet with the table specified replaced with the new table. */
   override def replace(index: Int, table: DataTable): Try[DataSet] = {
-    checkTablesAndBuild("replacing", () => IndexedSeqExtensions.replaceItem(tables, index, table))
+    checkTablesAndBuild(
+      "replacing",
+      () => IndexedSeqExtensions.replaceItem(tables, index, table)
+    )
   }
 
   /** Creates a new DataSet with the table inserted at the specified location. */
-  override def insert(tableToInsertAt: DataTable, newTable: DataTable): Try[DataSet] = {
+  override def insert(
+    tableToInsertAt: DataTable,
+    newTable: DataTable): Try[DataSet] = {
     insert(tables.indexWhere(table => table eq tableToInsertAt), newTable)
   }
 
@@ -59,7 +66,10 @@ class DataSet private (dataSetName: String, dataTables: Iterable[DataTable])
 
   /** Creates a new DataSet with the table inserted at the specified location. */
   override def insert(index: Int, table: DataTable): Try[DataSet] = {
-    checkTablesAndBuild("inserting", () => IndexedSeqExtensions.insertItem(tables, index, table))
+    checkTablesAndBuild(
+      "inserting",
+      () => IndexedSeqExtensions.insertItem(tables, index, table)
+    )
   }
 
   /** Creates a new DataSet with the table at the specified location removed. */
@@ -74,27 +84,38 @@ class DataSet private (dataSetName: String, dataTables: Iterable[DataTable])
 
   /** Creates a new DataSet with the table at the specified location removed. */
   override def remove(index: Int): Try[DataSet] = {
-    checkTablesAndBuild("removing", () => IndexedSeqExtensions.removeItem(tables, index))
+    checkTablesAndBuild(
+      "removing",
+      () => IndexedSeqExtensions.removeItem(tables, index)
+    )
   }
 
   /** Creates a new DataSet with the additional table. */
   override def add(table: DataTable): Try[DataSet] = {
-    checkTablesAndBuild("adding", () => IndexedSeqExtensions.addItem(tables, table))
+    checkTablesAndBuild(
+      "adding",
+      () => IndexedSeqExtensions.addItem(tables, table)
+    )
   }
 
   override def length: Int = tables.length
 
   override def apply(idx: Int): DataTable = tables(idx)
 
-  private def actionByTableName(tableName: String, action: Int => Try[DataSet]): Try[DataSet] = {
+  private def actionByTableName(
+    tableName: String,
+    action: Int => Try[DataSet]): Try[DataSet] = {
     tables.indexWhere(_.name == tableName) match {
-      case -1 => Failure(DataTableException("Table " + tableName + " not found."))
+      case -1 =>
+        Failure(DataTableException("Table " + tableName + " not found."))
       case tableIdx: Int => action(tableIdx)
     }
   }
 
   /** Checks that the new table set is valid, and builds a new DataSet. */
-  private def checkTablesAndBuild(modification: String, checkTables: () => Try[IndexedSeq[DataTable]]): Try[DataSet] = {
+  private def checkTablesAndBuild(
+    modification: String,
+    checkTables: () => Try[IndexedSeq[DataTable]]): Try[DataSet] = {
 
     val newTables = for {
       newTableSet <- checkTables()
@@ -102,7 +123,8 @@ class DataSet private (dataSetName: String, dataTables: Iterable[DataTable])
     } yield newTableSet
 
     newTables match {
-      case Success(modifiedTableSet) => new Success[DataSet](new DataSet(name, modifiedTableSet))
+      case Success(modifiedTableSet) =>
+        new Success[DataSet](new DataSet(name, modifiedTableSet))
       case Failure(ex) => Failure(ex)
     }
   }
@@ -125,8 +147,9 @@ object DataSet {
     val tableSeq = tables.toIndexedSeq
 
     tableSeq.groupBy(_.name).toSeq.length != tableSeq.length match {
-      case true => Failure(DataTableException("Tables contain duplicate names."))
-      case false => Success(Unit)
+      case true =>
+        Failure(DataTableException("Tables contain duplicate names."))
+      case false => Success(())
     }
   }
 }

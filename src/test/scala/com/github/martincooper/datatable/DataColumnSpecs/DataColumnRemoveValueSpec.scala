@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataColumnSpecs
 
 import com.github.martincooper.datatable.DataColumn
@@ -22,7 +21,9 @@ import org.scalatest.{ Matchers, FlatSpec }
 class DataColumnRemoveValueSpec extends FlatSpec with Matchers {
 
   "A Data Column" should "be able to be remove an existing data value" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.remove(2)
 
@@ -34,10 +35,14 @@ class DataColumnRemoveValueSpec extends FlatSpec with Matchers {
   }
 
   it should "not allow remove with invalid index" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.remove(99)
     result.isSuccess should be(false)
-    result.failed.get.getMessage should be("Item index out of bounds for remove.")
+    result.failed.get.getMessage should be(
+      "Item index out of bounds for remove."
+    )
   }
 }

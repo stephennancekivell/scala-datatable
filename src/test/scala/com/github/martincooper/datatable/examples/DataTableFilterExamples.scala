@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.examples
 
 import com.github.martincooper.datatable.{ DataRow, DataTable }
@@ -36,8 +35,12 @@ class DataTableFilterExamples {
     dataRows.foreach(row => println(row(0).toString + " : " + row(1).toString))
 
     // Or by specifying the columns by name and with full type info.
-    dataRows.foreach(row =>
-      println(row.as[String]("AddressOne") + " : " + row.as[Int]("HouseNumber")))
+    dataRows.foreach(
+      row =>
+        println(
+          row.as[String]("AddressOne") + " : " + row.as[Int]("HouseNumber")
+        )
+    )
   }
 
   def simpleDataAccess(dataRow: DataRow) = {

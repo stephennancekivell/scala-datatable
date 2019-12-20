@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSort
 
 import com.github.martincooper.datatable._
@@ -27,7 +26,9 @@ object DataSort {
   }
 
   /** Performs a quick sort of the DataTable, returning a sorted DataView. */
-  def quickSort(table: DataTable, sortItems: Iterable[SortItem]): Try[DataView] = {
+  def quickSort(
+    table: DataTable,
+    sortItems: Iterable[SortItem]): Try[DataView] = {
     quickSort(table, table, sortItems)
   }
 
@@ -37,19 +38,27 @@ object DataSort {
   }
 
   /** Performs a quick sort of a DataView, returning a sorted DataView. */
-  def quickSort(dataView: DataView, sortItems: Iterable[SortItem]): Try[DataView] = {
+  def quickSort(
+    dataView: DataView,
+    sortItems: Iterable[SortItem]): Try[DataView] = {
     quickSort(dataView.table, dataView.rows, sortItems)
   }
 
   /** Performs a quick sort of the DataRows, returning a sorted DataView. */
-  def quickSort(table: DataTable, dataRows: Iterable[DataRow], sortItems: Iterable[SortItem]): Try[DataView] = {
+  def quickSort(
+    table: DataTable,
+    dataRows: Iterable[DataRow],
+    sortItems: Iterable[SortItem]): Try[DataView] = {
     validateSortColumns(table, sortItems) match {
       case Success(_) => performQuickSort(table, dataRows, sortItems)
       case Failure(ex) => Failure(ex)
     }
   }
 
-  private def performQuickSort(table: DataTable, dataRows: Iterable[DataRow], sortItems: Iterable[SortItem]): Try[DataView] = {
+  private def performQuickSort(
+    table: DataTable,
+    dataRows: Iterable[DataRow],
+    sortItems: Iterable[SortItem]): Try[DataView] = {
     val dataRowArray = dataRows.toArray
     val dataRowOrdering = DataRowSorter.dataRowOrdering(sortItems)
 
@@ -58,7 +67,9 @@ object DataSort {
   }
 
   /** Ensure that all columns specified are valid for sorting. */
-  private def validateSortColumns(table: DataTable, sortItems: Iterable[SortItem]): Try[Unit] = {
+  private def validateSortColumns(
+    table: DataTable,
+    sortItems: Iterable[SortItem]): Try[Unit] = {
     validateSortColumnIdentity(table, sortItems) match {
       case Success(cols) => validateColumnsAreComparable(cols)
       case Failure(ex) => Failure(ex)
@@ -66,21 +77,32 @@ object DataSort {
   }
 
   /** Ensure that all columns specified are recognised (by name or index). */
-  private def validateSortColumnIdentity(table: DataTable, sortItems: Iterable[SortItem]): Try[Iterable[GenericColumn]] = {
-    val columns = sortItems.map(item => columnFromIdentity(table, item.columnIdentity))
+  private def validateSortColumnIdentity(
+    table: DataTable,
+    sortItems: Iterable[SortItem]): Try[Iterable[GenericColumn]] = {
+    val columns =
+      sortItems.map(item => columnFromIdentity(table, item.columnIdentity))
     Try(columns.map(_.get))
   }
 
   /** Ensure that all columns specified are comparable. */
-  private def validateColumnsAreComparable(columns: Iterable[GenericColumn]): Try[Unit] = {
+  private def validateColumnsAreComparable(
+    columns: Iterable[GenericColumn]): Try[Unit] = {
     columns.find(!_.isComparable) match {
-      case None => Success(Unit)
-      case Some(invalidCol) => Failure(DataTableException("Column '" + invalidCol.name + "' doesn't support comparable."))
+      case None => Success(())
+      case Some(invalidCol) =>
+        Failure(
+          DataTableException(
+            "Column '" + invalidCol.name + "' doesn't support comparable."
+          )
+        )
     }
   }
 
   /** Gets a column from a DataTable by ItemIdentity. */
-  private def columnFromIdentity(dataTable: DataTable, itemIdentity: ItemIdentity): Try[GenericColumn] = {
+  private def columnFromIdentity(
+    dataTable: DataTable,
+    itemIdentity: ItemIdentity): Try[GenericColumn] = {
     itemIdentity match {
       case ItemByName(name) => dataTable.columns.get(name)
       case ItemByIndex(index) => dataTable.columns.get(index)

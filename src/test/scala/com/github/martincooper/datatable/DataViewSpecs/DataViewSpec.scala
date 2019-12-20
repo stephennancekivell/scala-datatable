@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataViewSpecs
 
 import com.github.martincooper.datatable.{ DataColumn, DataTable, DataView }
@@ -22,9 +21,15 @@ import org.scalatest.{ FlatSpec, Matchers }
 class DataViewSpec extends FlatSpec with Matchers {
 
   private def buildTestTable(): DataTable = {
-    val dataColOne = new DataColumn[Int]("ColOne", (0 to 10) map { i => i })
-    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 10) map { i => "Value : " + i })
-    val dataColThree = new DataColumn[Boolean]("ColThree", (0 to 10) map { i => true })
+    val dataColOne = new DataColumn[Int]("ColOne", (0 to 10) map { i =>
+      i
+    })
+    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 10) map { i =>
+      "Value : " + i
+    })
+    val dataColThree = new DataColumn[Boolean]("ColThree", (0 to 10) map { i =>
+      true
+    })
 
     DataTable("TestTable", Seq(dataColOne, dataColTwo, dataColThree)).get
   }
@@ -52,6 +57,8 @@ class DataViewSpec extends FlatSpec with Matchers {
     val dataView = DataView(DataTable("DifferentTable").get, dataRows)
 
     dataView.isSuccess should be(false)
-    dataView.failed.get.getMessage should be("DataRows do not all belong to the specified table.")
+    dataView.failed.get.getMessage should be(
+      "DataRows do not all belong to the specified table."
+    )
   }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.examples
 
 import com.github.martincooper.datatable.{ GenericColumn, DataColumn, DataTable }
@@ -22,7 +21,8 @@ import scala.util.Try
 class DataColumnModificationExamples {
 
   def addColumn(dataTable: DataTable): Try[DataTable] = {
-    val stringCol = new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
+    val stringCol =
+      new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
     dataTable.columns.add(stringCol)
   }
 
@@ -34,37 +34,49 @@ class DataColumnModificationExamples {
     dataTable.columns.remove(1)
   }
 
-  def removeColumn(dataTable: DataTable, columnToRemove: GenericColumn): Try[DataTable] = {
+  def removeColumn(
+    dataTable: DataTable,
+    columnToRemove: GenericColumn): Try[DataTable] = {
     dataTable.columns.remove(columnToRemove)
   }
 
   def insertColumnByName(dataTable: DataTable): Try[DataTable] = {
-    val stringCol = new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
+    val stringCol =
+      new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
     dataTable.columns.insert("ColumnTwo", stringCol)
   }
 
   def insertColumnByIndex(dataTable: DataTable): Try[DataTable] = {
-    val stringCol = new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
+    val stringCol =
+      new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
     dataTable.columns.insert(2, stringCol)
   }
 
-  def insertColumn(dataTable: DataTable, insertBeforeColumn: GenericColumn): Try[DataTable] = {
-    val stringCol = new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
+  def insertColumn(
+    dataTable: DataTable,
+    insertBeforeColumn: GenericColumn): Try[DataTable] = {
+    val stringCol =
+      new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
     dataTable.columns.insert(insertBeforeColumn, stringCol)
   }
 
   def replaceColumnByName(dataTable: DataTable): Try[DataTable] = {
-    val stringCol = new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
+    val stringCol =
+      new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
     dataTable.columns.replace("ColumnTwo", stringCol)
   }
 
   def replaceColumnByIndex(dataTable: DataTable): Try[DataTable] = {
-    val stringCol = new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
+    val stringCol =
+      new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
     dataTable.columns.replace(2, stringCol)
   }
 
-  def replaceColumn(dataTable: DataTable, columnToReplace: GenericColumn): Try[DataTable] = {
-    val stringCol = new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
+  def replaceColumn(
+    dataTable: DataTable,
+    columnToReplace: GenericColumn): Try[DataTable] = {
+    val stringCol =
+      new DataColumn[String]("New Column", (1 to 100).map(i => "Another " + i))
     dataTable.columns.replace(columnToReplace, stringCol)
   }
 }

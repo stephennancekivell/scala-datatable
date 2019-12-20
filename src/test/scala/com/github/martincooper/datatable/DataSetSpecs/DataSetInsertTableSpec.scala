@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSetSpecs
 
 import com.github.martincooper.datatable.{ DataSet, DataTable }
@@ -31,7 +30,9 @@ class DataSetInsertTableSpec extends FlatSpec with Matchers {
 
     newDataSet.isSuccess should be(true)
     newDataSet.get.tables.length should be(3)
-    newDataSet.get.tables.map(_.name) should be(Seq("TableOne", "TableTwo", "TableThree"))
+    newDataSet.get.tables.map(_.name) should be(
+      Seq("TableOne", "TableTwo", "TableThree")
+    )
   }
 
   it should "disallow a table to be inserted by name when its name is not found" in {
@@ -40,10 +41,13 @@ class DataSetInsertTableSpec extends FlatSpec with Matchers {
 
     val dataSet = DataSet("TestDataSet", Seq(tableOne, tableTwo)).get
 
-    val newDataSet = dataSet.insert("TableOneHundred", DataTable("TableTwo").get)
+    val newDataSet =
+      dataSet.insert("TableOneHundred", DataTable("TableTwo").get)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Table TableOneHundred not found.")
+    newDataSet.failed.get.getMessage should be(
+      "Table TableOneHundred not found."
+    )
   }
 
   it should "allow a table to be inserted by index" in {
@@ -56,7 +60,9 @@ class DataSetInsertTableSpec extends FlatSpec with Matchers {
 
     newDataSet.isSuccess should be(true)
     newDataSet.get.tables.length should be(3)
-    newDataSet.get.tables.map(_.name) should be(Seq("TableOne", "TableTwo", "TableThree"))
+    newDataSet.get.tables.map(_.name) should be(
+      Seq("TableOne", "TableTwo", "TableThree")
+    )
   }
 
   it should "disallow a table to be inserted by index when it is not found" in {
@@ -68,7 +74,9 @@ class DataSetInsertTableSpec extends FlatSpec with Matchers {
     val newDataSet = dataSet.insert(9, DataTable("TableThree").get)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Item index out of bounds for insert.")
+    newDataSet.failed.get.getMessage should be(
+      "Item index out of bounds for insert."
+    )
   }
 
   it should "allow a table to be inserted by reference" in {
@@ -81,7 +89,9 @@ class DataSetInsertTableSpec extends FlatSpec with Matchers {
 
     newDataSet.isSuccess should be(true)
     newDataSet.get.tables.length should be(3)
-    newDataSet.get.tables.map(_.name) should be(Seq("TableOne", "TableTwo", "TableThree"))
+    newDataSet.get.tables.map(_.name) should be(
+      Seq("TableOne", "TableTwo", "TableThree")
+    )
   }
 
   it should "disallow a table to be inserted by reference when it is not found" in {
@@ -94,6 +104,8 @@ class DataSetInsertTableSpec extends FlatSpec with Matchers {
     val newDataSet = dataSet.insert(unknownTable, DataTable("NewTable").get)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Item index out of bounds for insert.")
+    newDataSet.failed.get.getMessage should be(
+      "Item index out of bounds for insert."
+    )
   }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataColumnSpecs
 
 import com.github.martincooper.datatable.{ DataValue, DataColumn }
@@ -22,7 +21,9 @@ import org.scalatest.{ Matchers, FlatSpec }
 class DataColumnInsertValueSpec extends FlatSpec with Matchers {
 
   "A Data Column" should "be able to be insert an data value" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.insert(2, 99)
 
@@ -34,15 +35,21 @@ class DataColumnInsertValueSpec extends FlatSpec with Matchers {
   }
 
   it should "not allow insert with invalid index" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.insert(99, 99)
     result.isSuccess should be(false)
-    result.failed.get.getMessage should be("Item index out of bounds for insert.")
+    result.failed.get.getMessage should be(
+      "Item index out of bounds for insert."
+    )
   }
 
   it should "not allow insert with value of invalid type" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.insert(2, "Invalid Value")
     result.isSuccess should be(false)
@@ -50,7 +57,9 @@ class DataColumnInsertValueSpec extends FlatSpec with Matchers {
   }
 
   it should "be able to be insert a new value using a DataValue item" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.insert(2, DataValue(99))
 
@@ -63,7 +72,9 @@ class DataColumnInsertValueSpec extends FlatSpec with Matchers {
   }
 
   it should "prevent a invalid DataValue item type being inserted" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.insert(2, DataValue("Invalid Value"))
 

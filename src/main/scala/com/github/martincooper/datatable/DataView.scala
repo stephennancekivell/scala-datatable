@@ -13,25 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable
 
-import scala.collection.{ IndexedSeqLike, mutable }
+import scala.collection.mutable
 import scala.util.{ Failure, Success, Try }
 
 /** Provides a view over a DataTable to store filtered data sets. */
 class DataView private (dataTable: DataTable, dataRows: Iterable[DataRow])
-    extends BaseTable
-    with IndexedSeqLike[DataRow, DataView] {
+    extends BaseTable {
 
   val table = dataTable
   val rows = DataRowCollection(table, dataRows)
   val name = table.name
   val rowCount = rows.length
   val columns = table.columns
-
-  override def newBuilder: mutable.Builder[DataRow, DataView] =
-    DataView.newBuilder(table)
 
   override def length: Int = rows.length
 
@@ -56,13 +51,15 @@ object DataView {
 
   /** Builder for a new DataView. */
   def newBuilder(dataTable: DataTable): mutable.Builder[DataRow, DataView] =
-    Vector.newBuilder[DataRow] mapResult (vector => DataView(dataTable, vector).get)
+    Vector
+      .newBuilder[DataRow] mapResult (vector => DataView(dataTable, vector).get)
 
   def apply(sourceDataTable: DataTable): Try[DataView] = {
     Success(new DataView(sourceDataTable, sourceDataTable.rows))
   }
 
-  def apply(sourceDataTable: DataTable, dataRows: Iterable[DataRow]): Try[DataView] = {
+  def apply(sourceDataTable: DataTable,
+    dataRows: Iterable[DataRow]): Try[DataView] = {
     val indexedData = dataRows.toIndexedSeq
 
     validateDataRows(sourceDataTable, indexedData) match {
@@ -83,12 +80,18 @@ object DataView {
   }
 
   /** Validate all data rows belong to the same DataTable to ensure data integrity. */
-  def validateDataRows(sourceDataTable: DataTable, dataRows: Iterable[DataRow]): Try[Unit] = {
+  def validateDataRows(sourceDataTable: DataTable,
+    dataRows: Iterable[DataRow]): Try[Unit] = {
     val indexedData = dataRows.toIndexedSeq
 
     indexedData.forall(row => row.table eq sourceDataTable) match {
-      case false => Failure(DataTableException("DataRows do not all belong to the specified table."))
-      case true => Success(Unit)
+      case false =>
+        Failure(
+          DataTableException(
+            "DataRows do not all belong to the specified table."
+          )
+        )
+      case true => Success(())
     }
   }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable
 
 import scala.reflect.runtime.universe._
@@ -55,7 +54,10 @@ object GenericColumn {
     def toDataColumn[T: TypeTag]: Try[DataColumn[T]] = {
       typeOf[T] =:= col.columnType match {
         case true => Success(col.asInstanceOf[DataColumn[T]])
-        case _ => Failure(DataTableException("Column type doesn't match type requested."))
+        case _ =>
+          Failure(
+            DataTableException("Column type doesn't match type requested.")
+          )
       }
     }
   }

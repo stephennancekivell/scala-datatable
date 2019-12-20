@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.examples
 
 import com.github.martincooper.datatable.DataTable
@@ -47,13 +46,17 @@ class DataRowExamples {
     // Iterate through all rows in the table, printing out the value (regardless of type)
     // of the column number specified.
     table.foreach(dataRow => {
-      dataRow.get(0).map { cellValue => println(cellValue.toString) }
+      dataRow.get(0).map { cellValue =>
+        println(cellValue.toString)
+      }
     })
 
     // Iterate through all rows in the table, printing out the value (regardless of type)
     // of the named column.
     table.foreach(dataRow => {
-      dataRow.get("ColNameOne").map { cellValue => println(cellValue.toString) }
+      dataRow.get("ColNameOne").map { cellValue =>
+        println(cellValue.toString)
+      }
     })
   }
 
@@ -62,13 +65,17 @@ class DataRowExamples {
     // Iterate through all rows in the table, printing out the value (regardless of type)
     // of the column number specified.
     table.foreach(dataRow => {
-      dataRow.getAs[Int](0).map { cellValue => println(cellValue + 5) }
+      dataRow.getAs[Int](0).map { cellValue =>
+        println(cellValue + 5)
+      }
     })
 
     // Iterate through all rows in the table, printing out the value (regardless of type)
     // of the named column.
     table.foreach(dataRow => {
-      dataRow.getAs[Int]("ColNameOne").map { cellValue => println(cellValue + 5) }
+      dataRow.getAs[Int]("ColNameOne").map { cellValue =>
+        println(cellValue + 5)
+      }
     })
   }
 }

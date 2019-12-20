@@ -13,18 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataColumnCollectionSpecs
 
-import com.github.martincooper.datatable.{ DataColumn, DataTableException, DataTable }
+import com.github.martincooper.datatable.{
+  DataColumn,
+  DataTableException,
+  DataTable
+}
 import org.scalatest.{ FlatSpec, Matchers }
 
 class DataColumnCollectionAccessSpec extends FlatSpec with Matchers {
 
   private def buildDefaultTestTable(): DataTable = {
-    val dataColOne = new DataColumn[Int]("ColOne", (0 to 10) map { i => i })
-    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 10) map { i => "Value : " + i })
-    val dataColThree = new DataColumn[Boolean]("ColThree", (0 to 10) map { i => true })
+    val dataColOne = new DataColumn[Int]("ColOne", (0 to 10) map { i =>
+      i
+    })
+    val dataColTwo = new DataColumn[String]("ColTwo", (0 to 10) map { i =>
+      "Value : " + i
+    })
+    val dataColThree = new DataColumn[Boolean]("ColThree", (0 to 10) map { i =>
+      true
+    })
 
     DataTable("TestTable", Seq(dataColOne, dataColTwo, dataColThree)).get
   }
@@ -179,7 +188,9 @@ class DataColumnCollectionAccessSpec extends FlatSpec with Matchers {
     val column = table.columns.getAs[Int]("ColTwo")
 
     column.isSuccess should be(false)
-    column.failed.get.getMessage should be("Column type doesn't match type requested.")
+    column.failed.get.getMessage should be(
+      "Column type doesn't match type requested."
+    )
   }
 
   it should "allow a column returned by index" in {
@@ -207,6 +218,8 @@ class DataColumnCollectionAccessSpec extends FlatSpec with Matchers {
     val column = table.columns.getAs[Int](1)
 
     column.isSuccess should be(false)
-    column.failed.get.getMessage should be("Column type doesn't match type requested.")
+    column.failed.get.getMessage should be(
+      "Column type doesn't match type requested."
+    )
   }
 }

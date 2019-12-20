@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataColumnSpecs
 
 import com.github.martincooper.datatable.{ DataValue, DataColumn }
@@ -22,7 +21,9 @@ import org.scalatest.{ Matchers, FlatSpec }
 class DataColumnAddValueSpec extends FlatSpec with Matchers {
 
   "A Data Column" should "be able to be add a new data value" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.add(99)
 
@@ -35,7 +36,9 @@ class DataColumnAddValueSpec extends FlatSpec with Matchers {
   }
 
   it should "prevent a invalid value type being added" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.add("Invalid Value")
 
@@ -44,7 +47,9 @@ class DataColumnAddValueSpec extends FlatSpec with Matchers {
   }
 
   it should "be able to be add a new value using a DataValue item" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.add(DataValue(99))
 
@@ -57,7 +62,9 @@ class DataColumnAddValueSpec extends FlatSpec with Matchers {
   }
 
   it should "prevent a invalid DataValue item type being added" in {
-    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i => i })
+    val originalColumn = new DataColumn[Int]("TestCol", (0 to 4) map { i =>
+      i
+    })
 
     val result = originalColumn.add(DataValue("Invalid Value"))
 

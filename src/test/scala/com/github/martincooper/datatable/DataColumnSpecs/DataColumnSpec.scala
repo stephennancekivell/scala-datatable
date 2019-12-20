@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataColumnSpecs
 
 import com.github.martincooper.datatable.{ DataColumn, GenericColumn }
@@ -30,7 +29,9 @@ class DataColumnSpec extends FlatSpec with Matchers {
   private case class TestNotOrderedInt(i: Int) {}
 
   "A Data Column" should "be able to be created with a name and default data" in {
-    val newSeq = (0 to 19) map { i => i }
+    val newSeq = (0 to 19) map { i =>
+      i
+    }
     val dataColumn = new DataColumn[Int]("TestCol", newSeq)
 
     dataColumn.name should be("TestCol")
@@ -39,7 +40,9 @@ class DataColumnSpec extends FlatSpec with Matchers {
   }
 
   "A Generic Column" should "be able to be cast back to its original type" in {
-    val newSeq = (0 to 19) map { i => i }
+    val newSeq = (0 to 19) map { i =>
+      i
+    }
     val dataColumn = new DataColumn[Int]("TestCol", newSeq)
 
     val genericColumn = dataColumn.asInstanceOf[GenericColumn]
@@ -58,10 +61,14 @@ class DataColumnSpec extends FlatSpec with Matchers {
   }
 
   it should "be be comparable for Comparable[T] types" in {
-    new DataColumn[TestOrderedInt]("TestCol", Seq()).isComparable should be(true)
+    new DataColumn[TestOrderedInt]("TestCol", Seq()).isComparable should be(
+      true
+    )
   }
 
   it should "not be be comparable for non Comparable[T] types" in {
-    new DataColumn[TestNotOrderedInt]("TestCol", Seq()).isComparable should be(false)
+    new DataColumn[TestNotOrderedInt]("TestCol", Seq()).isComparable should be(
+      false
+    )
   }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSetSpecs
 
 import com.github.martincooper.datatable.{ DataSet, DataTable }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable
 
 /** Handles the output of a DataTable in a displayable format. */
@@ -33,9 +32,16 @@ object DataTableFormatter {
     prettyPrint(table, table)
   }
 
-  private def prettyPrint(table: DataTable, dataRows: IndexedSeq[DataRow]): String = {
+  private def prettyPrint(
+    table: DataTable,
+    dataRows: IndexedSeq[DataRow]): String = {
     val colDetails = table.columns.zipWithIndex.map {
-      case (column, index) => ColumnDetails(index, column.name, colWidth(index, column.name, dataRows))
+      case (column, index) =>
+        ColumnDetails(
+          index,
+          column.name,
+          colWidth(index, column.name, dataRows)
+        )
     }
 
     val builder = new StringBuilder
@@ -46,11 +52,17 @@ object DataTableFormatter {
     builder.mkString
   }
 
-  private def printRows(builder: StringBuilder, dataRows: IndexedSeq[DataRow], colDetails: Seq[ColumnDetails]) = {
+  private def printRows(
+    builder: StringBuilder,
+    dataRows: IndexedSeq[DataRow],
+    colDetails: Seq[ColumnDetails]) = {
     dataRows.foreach(dataRow => printRow(builder, dataRow, colDetails))
   }
 
-  private def printRow(builder: StringBuilder, dataRow: DataRow, colDetails: Seq[ColumnDetails]) = {
+  private def printRow(
+    builder: StringBuilder,
+    dataRow: DataRow,
+    colDetails: Seq[ColumnDetails]) = {
     val formattedValues = colDetails.map(details => {
       val textValue = dataRow(details.colIdx).toString
       "|" + colDataString(textValue, details.width)
@@ -59,14 +71,17 @@ object DataTableFormatter {
     writelnExt(builder, formattedValues)
   }
 
-  private def printHeader(builder: StringBuilder, colDetails: Seq[ColumnDetails]) = {
+  private def printHeader(
+    builder: StringBuilder,
+    colDetails: Seq[ColumnDetails]) = {
     val totalLength = colDetails.map(_.width).sum + (colDetails.length * 2)
     val headerFooter = padString("", totalLength, '-')
 
     writeln(builder)
     writelnExt(builder, headerFooter)
 
-    val formattedHeaders = colDetails.map(col => "|" + colDataString(col.colName, col.width))
+    val formattedHeaders =
+      colDetails.map(col => "|" + colDataString(col.colName, col.width))
 
     writelnExt(builder, formattedHeaders)
     writelnExt(builder, headerFooter)
@@ -78,7 +93,10 @@ object DataTableFormatter {
   }
 
   /** Calculates the column width to use for a column. */
-  private def colWidth(colIdx: Int, colName: String, dataRows: IndexedSeq[DataRow]) = {
+  private def colWidth(
+    colIdx: Int,
+    colName: String,
+    dataRows: IndexedSeq[DataRow]) = {
     val columnData = dataRows.map(row => row(colIdx))
     maxValueLength(colName +: columnData) + 2
   }

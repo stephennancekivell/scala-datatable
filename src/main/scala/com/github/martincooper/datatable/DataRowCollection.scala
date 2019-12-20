@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable
 
-import scala.collection.{ mutable, IndexedSeqLike }
+import scala.collection.mutable
 import scala.util.{ Success, Failure, Try }
 
 /** Stores a column and the value to put in it. */
 case class ColumnValuePair(column: GenericColumn, value: DataValue)
 
 /** Implements a collection of DataRows with additional immutable modification methods implemented. */
-class DataRowCollection private (dataTable: DataTable, dataRows: Iterable[DataRow])
-    extends IndexedSeq[DataRow]
-    with IndexedSeqLike[DataRow, DataRowCollection] {
+class DataRowCollection private (dataTable: DataTable,
+  dataRows: Iterable[DataRow])
+    extends IndexedSeq[DataRow] {
 
   val table = dataTable
   val rows = dataRows.toVector
@@ -34,9 +33,6 @@ class DataRowCollection private (dataTable: DataTable, dataRows: Iterable[DataRo
   override def apply(columnIndex: Int): DataRow = rows(columnIndex)
 
   override def length: Int = rowCount
-
-  override def newBuilder: mutable.Builder[DataRow, DataRowCollection] =
-    DataRowCollection.newBuilder(table, rows)
 
   /** Returns a new table with the additional row data appended. */
   def add(rowValues: DataValue*): Try[DataTable] = {
@@ -87,18 +83,29 @@ class DataRowCollection private (dataTable: DataTable, dataRows: Iterable[DataRo
     removeValues(rowIndex)
   }
 
-  private def replaceValues(rowIndex: Int, columnValues: IndexedSeq[ColumnValuePair]): Try[DataTable] = {
-    val newCols = allOrFirstFail(columnValues.map(item => item.column.replace(rowIndex, item.value)))
+  private def replaceValues(
+    rowIndex: Int,
+    columnValues: IndexedSeq[ColumnValuePair]): Try[DataTable] = {
+    val newCols = allOrFirstFail(
+      columnValues.map(item => item.column.replace(rowIndex, item.value))
+    )
     buildTable(newCols)
   }
 
-  private def insertValues(rowIndex: Int, columnValues: IndexedSeq[ColumnValuePair]): Try[DataTable] = {
-    val newCols = allOrFirstFail(columnValues.map(item => item.column.insert(rowIndex, item.value)))
+  private def insertValues(
+    rowIndex: Int,
+    columnValues: IndexedSeq[ColumnValuePair]): Try[DataTable] = {
+    val newCols = allOrFirstFail(
+      columnValues.map(item => item.column.insert(rowIndex, item.value))
+    )
     buildTable(newCols)
   }
 
-  private def addValues(columnValues: IndexedSeq[ColumnValuePair]): Try[DataTable] = {
-    val newCols = allOrFirstFail(columnValues.map(item => item.column.add(item.value)))
+  private def addValues(
+    columnValues: IndexedSeq[ColumnValuePair]): Try[DataTable] = {
+    val newCols = allOrFirstFail(
+      columnValues.map(item => item.column.add(item.value))
+    )
     buildTable(newCols)
   }
 
@@ -117,15 +124,22 @@ class DataRowCollection private (dataTable: DataTable, dataRows: Iterable[DataRo
   }
 
   /** Maps each value to the column it should go in. With only values,  */
-  private def mapValuesToColumns(values: IndexedSeq[DataValue]): Try[IndexedSeq[ColumnValuePair]] = {
+  private def mapValuesToColumns(
+    values: IndexedSeq[DataValue]): Try[IndexedSeq[ColumnValuePair]] = {
     values.length == table.columns.length match {
-      case false => Failure(DataTableException("Number of values does not match number of columns."))
+      case false =>
+        Failure(
+          DataTableException(
+            "Number of values does not match number of columns."
+          )
+        )
       case _ => Success(createIndexedColumnValuePair(values))
     }
   }
 
   /** Creates a collection of column to value pairs by column index. */
-  private def createIndexedColumnValuePair(values: IndexedSeq[DataValue]): IndexedSeq[ColumnValuePair] = {
+  private def createIndexedColumnValuePair(
+    values: IndexedSeq[DataValue]): IndexedSeq[ColumnValuePair] = {
     values.zipWithIndex.map {
       case (value, index) => ColumnValuePair(table.columns(index), value)
     }
@@ -135,7 +149,10 @@ class DataRowCollection private (dataTable: DataTable, dataRows: Iterable[DataRo
   private def indexFromRow(dataRow: DataRow): Try[Int] = {
     dataRow.table eq table match {
       case true => Success(dataRow.rowIndex)
-      case _ => Failure(DataTableException("DataRow specified does not belong to this table."))
+      case _ =>
+        Failure(
+          DataTableException("DataRow specified does not belong to this table.")
+        )
     }
   }
 
@@ -147,8 +164,12 @@ class DataRowCollection private (dataTable: DataTable, dataRows: Iterable[DataRo
 object DataRowCollection {
 
   /** Builder for a new DataRowCollection. */
-  def newBuilder(dataTable: DataTable, dataRows: Iterable[DataRow]): mutable.Builder[DataRow, DataRowCollection] =
-    Vector.newBuilder[DataRow] mapResult (vector => new DataRowCollection(dataTable, dataRows))
+  def newBuilder(
+    dataTable: DataTable,
+    dataRows: Iterable[DataRow]): mutable.Builder[DataRow, DataRowCollection] =
+    Vector.newBuilder[DataRow] mapResult (
+      vector => new DataRowCollection(dataTable, dataRows)
+    )
 
   /** Builds a DataRowCollection. */
   def apply(dataTable: DataTable): DataRowCollection = {
@@ -156,7 +177,8 @@ object DataRowCollection {
   }
 
   /** Builds a DataRowCollection. */
-  def apply(dataTable: DataTable, dataRows: Iterable[DataRow]): DataRowCollection = {
+  def apply(dataTable: DataTable,
+    dataRows: Iterable[DataRow]): DataRowCollection = {
     new DataRowCollection(dataTable, dataRows)
   }
 }

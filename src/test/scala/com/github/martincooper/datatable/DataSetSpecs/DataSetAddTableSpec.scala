@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.DataSetSpecs
 
 import com.github.martincooper.datatable.{ DataSet, DataTable }
@@ -32,7 +31,9 @@ class DataSetAddTableSpec extends FlatSpec with Matchers {
 
     newDataSet.isSuccess should be(true)
     newDataSet.get.tables.length should be(3)
-    newDataSet.get.tables.map(_.name) should be(Seq("TableOne", "TableTwo", "TableThree"))
+    newDataSet.get.tables.map(_.name) should be(
+      Seq("TableOne", "TableTwo", "TableThree")
+    )
   }
 
   it should "disallow a table with a duplicate name to be added" in {
@@ -45,6 +46,8 @@ class DataSetAddTableSpec extends FlatSpec with Matchers {
     val newDataSet = dataSet.add(tableThree)
 
     newDataSet.isSuccess should be(false)
-    newDataSet.failed.get.getMessage should be("Tables contain duplicate names.")
+    newDataSet.failed.get.getMessage should be(
+      "Tables contain duplicate names."
+    )
   }
 }

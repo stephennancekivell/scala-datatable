@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable.examples
 
 import com.github.martincooper.datatable.TypedDataValueImplicits._
@@ -44,11 +43,17 @@ class DataRowModificationExamples {
 
   def addRow(): Try[DataTable] = {
     // First create a table with the required columns.
-    val stringCol = new DataColumn[String]("StringColumn", (1 to 100).map(i => "Cell Value " + i))
-    val integerCol = new DataColumn[Int]("IntegerColumn", (1 to 100).map(i => i * 20))
-    val booleanCol = new DataColumn[Boolean]("BooleanColumn", (1 to 100).map(i => true))
+    val stringCol = new DataColumn[String](
+      "StringColumn",
+      (1 to 100).map(i => "Cell Value " + i)
+    )
+    val integerCol =
+      new DataColumn[Int]("IntegerColumn", (1 to 100).map(i => i * 20))
+    val booleanCol =
+      new DataColumn[Boolean]("BooleanColumn", (1 to 100).map(i => true))
 
-    val dataTable = DataTable("NewTable", Seq(stringCol, integerCol, booleanCol)).get
+    val dataTable =
+      DataTable("NewTable", Seq(stringCol, integerCol, booleanCol)).get
 
     // Call rows.add, providing the correct number of values and of the correct type.
     // This will return a new DataTable with the data appended as a new row at the end.
@@ -57,11 +62,17 @@ class DataRowModificationExamples {
 
   def removeRow(): Try[DataTable] = {
     // First create a table with the required columns.
-    val stringCol = new DataColumn[String]("StringColumn", (1 to 100).map(i => "Cell Value " + i))
-    val integerCol = new DataColumn[Int]("IntegerColumn", (1 to 100).map(i => i * 20))
-    val booleanCol = new DataColumn[Boolean]("BooleanColumn", (1 to 100).map(i => true))
+    val stringCol = new DataColumn[String](
+      "StringColumn",
+      (1 to 100).map(i => "Cell Value " + i)
+    )
+    val integerCol =
+      new DataColumn[Int]("IntegerColumn", (1 to 100).map(i => i * 20))
+    val booleanCol =
+      new DataColumn[Boolean]("BooleanColumn", (1 to 100).map(i => true))
 
-    val dataTable = DataTable("NewTable", Seq(stringCol, integerCol, booleanCol)).get
+    val dataTable =
+      DataTable("NewTable", Seq(stringCol, integerCol, booleanCol)).get
 
     // Call rows.remove, providing the rowIndex.
     // This will return a new DataTable with the row at the specified index removed.
@@ -71,11 +82,17 @@ class DataRowModificationExamples {
 
   def insertRow(): Try[DataTable] = {
     // First create a table with the required columns.
-    val stringCol = new DataColumn[String]("StringColumn", (1 to 100).map(i => "Cell Value " + i))
-    val integerCol = new DataColumn[Int]("IntegerColumn", (1 to 100).map(i => i * 20))
-    val booleanCol = new DataColumn[Boolean]("BooleanColumn", (1 to 100).map(i => true))
+    val stringCol = new DataColumn[String](
+      "StringColumn",
+      (1 to 100).map(i => "Cell Value " + i)
+    )
+    val integerCol =
+      new DataColumn[Int]("IntegerColumn", (1 to 100).map(i => i * 20))
+    val booleanCol =
+      new DataColumn[Boolean]("BooleanColumn", (1 to 100).map(i => true))
 
-    val dataTable = DataTable("NewTable", Seq(stringCol, integerCol, booleanCol)).get
+    val dataTable =
+      DataTable("NewTable", Seq(stringCol, integerCol, booleanCol)).get
 
     // Call rows.insert, providing the correct number of values and of the correct type.
     // This will return a new DataTable with the data provided inserted as a new row
@@ -86,11 +103,17 @@ class DataRowModificationExamples {
 
   def replaceRow(): Try[DataTable] = {
     // First create a table with the required columns.
-    val stringCol = new DataColumn[String]("StringColumn", (1 to 100).map(i => "Cell Value " + i))
-    val integerCol = new DataColumn[Int]("IntegerColumn", (1 to 100).map(i => i * 20))
-    val booleanCol = new DataColumn[Boolean]("BooleanColumn", (1 to 100).map(i => true))
+    val stringCol = new DataColumn[String](
+      "StringColumn",
+      (1 to 100).map(i => "Cell Value " + i)
+    )
+    val integerCol =
+      new DataColumn[Int]("IntegerColumn", (1 to 100).map(i => i * 20))
+    val booleanCol =
+      new DataColumn[Boolean]("BooleanColumn", (1 to 100).map(i => true))
 
-    val dataTable = DataTable("NewTable", Seq(stringCol, integerCol, booleanCol)).get
+    val dataTable =
+      DataTable("NewTable", Seq(stringCol, integerCol, booleanCol)).get
 
     // Call rows.replace, providing the correct number of values and of the correct type.
     // This will return a new DataTable with the data provided replacing the data at

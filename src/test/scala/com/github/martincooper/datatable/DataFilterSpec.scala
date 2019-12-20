@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.martincooper.datatable
 
 import org.scalatest.{ Matchers, FlatSpec }
@@ -22,12 +21,22 @@ import org.scalatest.{ Matchers, FlatSpec }
 class DataFilterSpec extends FlatSpec with Matchers {
 
   private def buildTestTable(): DataTable = {
-    val dataColOne = new DataColumn[Int]("IntegerCol", (0 to 50) map { i => i })
-    val dataColTwo = new DataColumn[String]("StringCol", (0 to 50) map { i => "Value : " + i })
-    val dataColThree = new DataColumn[Boolean]("BoolCol", (0 to 50) map { i => i % 2 == 0 })
-    val dataColFour = new DataColumn[Long]("LongCol", (0 to 50).map(i => i.toLong).reverse)
+    val dataColOne = new DataColumn[Int]("IntegerCol", (0 to 50) map { i =>
+      i
+    })
+    val dataColTwo = new DataColumn[String]("StringCol", (0 to 50) map { i =>
+      "Value : " + i
+    })
+    val dataColThree = new DataColumn[Boolean]("BoolCol", (0 to 50) map { i =>
+      i % 2 == 0
+    })
+    val dataColFour =
+      new DataColumn[Long]("LongCol", (0 to 50).map(i => i.toLong).reverse)
 
-    DataTable("TestTable", Seq(dataColOne, dataColTwo, dataColThree, dataColFour)).get
+    DataTable(
+      "TestTable",
+      Seq(dataColOne, dataColTwo, dataColThree, dataColFour)
+    ).get
   }
 
   "A DataTable" can "be filtered by row values." in {
@@ -36,7 +45,7 @@ class DataFilterSpec extends FlatSpec with Matchers {
     // Simple single filter on table, returning collection of rows matching the filter.
     val dataView = table.filter(row => row.as[Int]("IntegerCol") > 10)
 
-    dataView shouldBe a[DataView]
+    dataView shouldBe a[IndexedSeq[DataRow]]
 
     dataView.length should be(40)
     dataView(0).as[Int]("IntegerCol") should be(11)
@@ -53,7 +62,7 @@ class DataFilterSpec extends FlatSpec with Matchers {
     val dataViewTwo = dataViewOne.filter(row => row.as[Long]("LongCol") > 10)
     val dataViewThree = dataViewTwo.filter(row => row.as[Boolean]("BoolCol"))
 
-    dataViewThree shouldBe a[DataView]
+    dataViewThree shouldBe a[IndexedSeq[DataRow]]
     dataViewThree.length should be(14)
 
     dataViewThree(0).as[Int]("IntegerCol") should be(12)
