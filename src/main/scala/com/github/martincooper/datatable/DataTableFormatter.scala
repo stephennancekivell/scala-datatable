@@ -110,7 +110,7 @@ object DataTableFormatter {
     builder ++= lineSeparator
   }
 
-  private def writelnExt(builder: StringBuilder, value: Traversable[Any]) = {
+  private def writelnExt(builder: StringBuilder, value: Iterable[Any]) = {
     builder ++= value.mkString
     builder ++= lineSeparator
   }
