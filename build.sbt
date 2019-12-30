@@ -1,6 +1,6 @@
 name := "scala-datatable"
 
-version := "0.9.0-SNAPSHOT"
+version := "0.9.0"
 
 scalaVersion := "2.13.1"
 

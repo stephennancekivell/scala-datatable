@@ -9,10 +9,10 @@ object ScalaCSVProject extends Build {
     base = file("."),
     settings = Defaults.defaultSettings ++ Seq(
       name := "scala-datatable",
-      version := "0.9.0-SNAPSHOT",
+      version := "0.9.0",
       scalaVersion := "2.13.1",
       crossScalaVersions := Seq("2.12.4", "2.13.1"),
-      organization := "com.github.martincooper",
+      organization := "com.stephenn",
       libraryDependencies ++= Seq(
         "org.scalatest" %% "scalatest" % "3.0.8" % "test"
       ),
